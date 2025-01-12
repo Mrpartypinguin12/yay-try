@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,12 +29,25 @@
             font-size: 1.2em;
             margin-top: 0;
         }
+        .main-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: 80%;
+            max-width: 1200px;
+        }
+        .image {
+            width: 40%;
+            max-width: 300px;
+        }
         .puzzle-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             width: 80%;
             max-width: 1200px;
+            margin-top: 20px;
         }
         .puzzle {
             background: #fff;
@@ -67,6 +81,10 @@
         .puzzle button:hover {
             background: #e63946;
         }
+        .puzzle[disabled] {
+            opacity: 0.5;
+            pointer-events: none;
+        }
         footer {
             margin-top: 20px;
             text-align: center;
@@ -80,25 +98,43 @@
         <h1>Hey Stander, It's Your Birthday!</h1>
         <p>Complete the following puzzles to reveal the secret message.</p>
     </header>
+    <div class="main-container">
+        <img src="left-image.jpg" alt="Left Image" class="image">
+        <img src="right-image.jpg" alt="Right Image" class="image">
+    </div>
     <main class="puzzle-container">
-        <div class="puzzle">
+        <div class="puzzle" id="puzzle1">
             <h2>Puzzle 1</h2>
             <p>Solve this riddle to get the first piece of the message.</p>
-            <button>Solve</button>
+            <button onclick="unlockNext(1)">Solve</button>
         </div>
-        <div class="puzzle">
+        <div class="puzzle" id="puzzle2" disabled>
             <h2>Puzzle 2</h2>
             <p>Match the pairs to uncover the next part.</p>
-            <button>Solve</button>
+            <button onclick="unlockNext(2)" disabled>Solve</button>
         </div>
-        <div class="puzzle">
+        <div class="puzzle" id="puzzle3" disabled>
             <h2>Puzzle 3</h2>
             <p>Decode the cipher for the final piece.</p>
-            <button>Solve</button>
+            <button onclick="unlockNext(3)" disabled>Solve</button>
         </div>
     </main>
     <footer>
         <p>&copy; 2025 Happy Birthday, Stander! 🎉</p>
     </footer>
+
+    <script>
+        function unlockNext(puzzleNumber) {
+            const currentPuzzle = document.getElementById(`puzzle${puzzleNumber}`);
+            currentPuzzle.querySelector('button').textContent = 'Solved';
+            currentPuzzle.querySelector('button').disabled = true;
+
+            if (puzzleNumber < 3) {
+                const nextPuzzle = document.getElementById(`puzzle${puzzleNumber + 1}`);
+                nextPuzzle.removeAttribute('disabled');
+                nextPuzzle.querySelector('button').removeAttribute('disabled');
+            }
+        }
+    </script>
 </body>
 </html>
